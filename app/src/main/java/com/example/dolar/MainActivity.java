@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         display.setText("0");
                         imprimirDolares();
+                        setCambioActual(getDolarVenta());
                     }
                 });
             }
