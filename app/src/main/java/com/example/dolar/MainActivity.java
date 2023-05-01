@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int dolarCompra = 0;
     private int dolarVenta = 0;
-    private int dolarPromed = 0;
-    private int cambioActual = 0;
+    private double dolarPromed = 0;
+    private double cambioActual = 0;
     Button btnCompra;
     Button btnVenta;
     Button btnPromed;
@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         btnC = (Button) findViewById(R.id.btnC); btnCE = (Button) findViewById(R.id.btnCE);
         btnPesADol = (Button) findViewById(R.id.btnPesADol);
         btnDolAPes = (Button) findViewById(R.id.btnDolAPes);
+
+        getDolar();
+
 
         btnPesADol.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -144,36 +147,38 @@ public class MainActivity extends AppCompatActivity {
         });
         btnCompra.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                setCambioActual(getDolarCompra());
+                setCambioActual((double) getDolarCompra());
             }
         });
         btnVenta.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                setCambioActual(getDolarVenta());
+                setCambioActual((double) getDolarVenta());
             }
         });
         btnPromed.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                setCambioActual(getDolarPromed());
+                setCambioActual((int)getDolarPromed());
             }
         });
 
-        getDolar();
     }
+
+
+
 
     private void dolarAPeso() {
         if(sb.length()!=0){
-        int result = Integer.parseInt(sb.toString());
-        borrarDisplay();
-        sb.append(Integer.toString(result * cambioActual));
+            double result = Double.parseDouble(sb.toString());
+            borrarDisplay();
+            sb.append(Double.toString(result * getCambioActual()));
         }
     }
 
     private void pesoADolar() {
         if(sb.length()!=0){
-        int result = Integer.parseInt(sb.toString());
-        borrarDisplay();
-        sb.append(Float.toString(result / cambioActual));
+            double result = Double.parseDouble(sb.toString());
+            borrarDisplay();
+            sb.append(String.format("%.2f", result / getCambioActual()));
         }
     }
 
@@ -201,7 +206,8 @@ public class MainActivity extends AppCompatActivity {
                     Elements title = doc.getElementsByClass("val");
                     setDolarCompra(Integer.parseInt(title.get(0).text().replace("$", "")));
                     setDolarVenta(Integer.parseInt(title.get(1).text().replace("$", "")));
-
+                    setDolarPromed((double) (getDolarCompra()+getDolarVenta())/2 );
+                    setCambioActual(getDolarPromed());
                 } catch (IOException e) {
                     display.append("Error: ");
                 }
@@ -211,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         display.setText("0");
                         imprimirDolares();
-                        setCambioActual(getDolarVenta());
                     }
                 });
             }
@@ -235,19 +240,19 @@ public class MainActivity extends AppCompatActivity {
         this.dolarVenta = dolarVenta;
     }
 
-    public int getDolarPromed() {
+    public double getDolarPromed() {
         return dolarPromed;
     }
 
-    public void setDolarPromed(int dolarPromed) {
+    public void setDolarPromed(double dolarPromed) {
         this.dolarPromed = dolarPromed;
     }
 
-    public int getCambioActual() {
+    public double getCambioActual() {
         return cambioActual;
     }
 
-    public void setCambioActual(int cambioActual) {
+    public void setCambioActual(double cambioActual) {
         this.cambioActual = cambioActual;
     }
 }
