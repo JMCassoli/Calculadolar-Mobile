@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         if(sb.length()!=0){
             double result = Double.parseDouble(sb.toString());
             borrarDisplay();
-            sb.append(Double.toString(result * getCambioActual()));
+            sb.append( Integer.toString((int) ((int)result * getCambioActual())));
         }
     }
 
